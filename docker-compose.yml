@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: admission
+      POSTGRES_PASSWORD: admission
+      POSTGRES_DB: admission
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # data survives `docker compose down`
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admission -d admission"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DB_CONNECTION: Host=postgres;Port=5432;Database=admission;Username=admission;Password=admission;Timeout=30;Maximum Pool Size=10
+      HOLD_DURATION_SECONDS: ${HOLD_DURATION_SECONDS:-600}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      # The URL the BROWSER uses to reach the backend (not a Docker-internal name).
+      API_URL: ${API_URL:-http://localhost:8080}
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  # Optional bonus: a second backend process on the same database (port 8081).
+  #   docker compose --profile bonus up
+  backend2:
+    profiles: ["bonus"]
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DB_CONNECTION: Host=postgres;Port=5432;Database=admission;Username=admission;Password=admission;Timeout=30;Maximum Pool Size=10
+      HOLD_DURATION_SECONDS: ${HOLD_DURATION_SECONDS:-600}
+    ports:
+      - "8081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Automated backend tests (separate database `admission_test`, created by the tests):
+  #   docker compose run --rm tests
+  tests:
+    profiles: ["test"]
+    build:
+      context: ./backend
+      target: test
+    environment:
+      TEST_DB_CONNECTION: Host=postgres;Port=5432;Database=admission_test;Username=admission;Password=admission;Timeout=30;Maximum Pool Size=10
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:

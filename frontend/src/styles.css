@@ -1,0 +1,250 @@
+/* A small visual update for the existing admission forms and tables. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, "Noto Sans Bengali", "Segoe UI", sans-serif;
+  line-height: 1.6;
+  background: #f1f5f9;
+  color: #243447;
+}
+
+main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+h1 {
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  color: #183b60;
+  font-size: 2rem;
+}
+
+h2 {
+  margin: 0 0 16px;
+  color: #183b60;
+  font-size: 1.1rem;
+}
+
+.card {
+  margin-bottom: 18px;
+  padding: 22px;
+  border: 1px solid #dce5ee;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(24, 59, 96, 0.04);
+}
+
+main > .card:first-of-type {
+  background: #f8fbff;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #bdcbd9;
+  border-radius: 7px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+input::placeholder {
+  color: #63758a;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #9bc4ef;
+  outline-offset: 2px;
+}
+
+button {
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: #225f9f;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button:hover:not(:disabled) {
+  background: #194a7e;
+}
+
+button.secondary {
+  border-color: #d7a4a0;
+  background: #fff;
+  color: #9f3028;
+}
+
+button.secondary:hover:not(:disabled) {
+  background: #fff0ee;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.row input {
+  flex: 1 1 180px;
+  width: auto;
+}
+
+.hint,
+.status {
+  font-size: 0.9rem;
+  color: #526579;
+}
+
+.hint {
+  margin: 8px 0 0;
+}
+
+.muted {
+  color: #63758a;
+}
+
+.error-text {
+  color: #a52c25;
+}
+
+.banner {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border: 1px solid;
+  border-radius: 8px;
+}
+
+.banner.error {
+  border-color: #efc2bd;
+  background: #fff0ee;
+  color: #91281f;
+}
+
+.banner.ok {
+  border-color: #b6dbc8;
+  background: #edf8f2;
+  color: #236040;
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #e3eaf1;
+  text-align: left;
+}
+
+th {
+  background: #f0f5fa;
+  color: #294967;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+tbody tr:hover {
+  background: #f8fbff;
+}
+
+td strong {
+  color: #183b60;
+}
+
+.hold {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 10px;
+  padding: 16px;
+  border: 1px solid #d6e1ed;
+  border-radius: 8px;
+}
+
+.hold.held {
+  border-color: #e8d5a2;
+  background: #fffcf3;
+}
+
+.hold.expired {
+  background: #f4f6f8;
+}
+
+.timer {
+  margin-top: 5px;
+  color: #225f9f;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #e9eef4;
+  font-size: 0.85rem;
+}
+
+.badge.held {
+  background: #fff0c5;
+  color: #785200;
+}
+
+.badge.confirmed {
+  background: #e0f2e7;
+  color: #21613b;
+}
+
+.badge.cancelled,
+.badge.expired {
+  background: #e9edf1;
+  color: #4e5c6b;
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 18px 12px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  form.row > input,
+  form.row > button {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
